@@ -35,6 +35,8 @@ date: "2026-01-30"
 
 ## Tables
 Caption mandatory (`:` line immediately after, no blank):
+Use dash count to control the colomn width ratios
+Distribute based on content length (short columns = fewer dashes, long columns = more)
 ```markdown
 | Col A | Col B |
 |-------|-------|
