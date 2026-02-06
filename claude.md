@@ -17,7 +17,7 @@ Direct pandoc (if needed):
 
 ## Key Files (read as needed)
 
-- **Markdown rules**: `templates/STYLEGUIDE_MD.md`
+- **Markdown rules**: `templates/styleguide_md.md`
 - **Visual spec**: `templates/design_specification.md`
 - **LaTeX template**: `templates/template.tex` (has calc pkg + none counter fix)
 - **Lua filter**: `templates/divs.lua`

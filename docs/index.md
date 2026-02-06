@@ -29,7 +29,7 @@ The system converts markdown files to professionally styled PDFs with consistent
 | `CLAUDE.md` | AI assistant instructions |
 | `templates/template.tex` | LaTeX template implementing design spec |
 | `templates/divs.lua` | Pandoc Lua filter for custom elements |
-| `templates/STYLEGUIDE_MD.md` | Markdown writing rules |
+| `templates/styleguide_md.md` | Markdown writing rules |
 | `templates/design_specification.md` | Complete visual design specification |
 | `workflow/build-pdf.sh` | PDF generation script |
 
@@ -121,7 +121,7 @@ Follow these rules when writing markdown:
 - No raw HTML or LaTeX
 - Keep content concise
 
-See `templates/STYLEGUIDE_MD.md` for complete writing guidelines.
+See `templates/styleguide_md.md` for complete writing guidelines.
 
 ## Using Callouts
 
@@ -208,7 +208,7 @@ These warnings do not affect PDF generation.
 
 For detailed information, see:
 
-- Writing rules: `templates/STYLEGUIDE_MD.md`
+- Writing rules: `templates/styleguide_md.md`
 - Visual design: `templates/design_specification.md`
 - Build script: `workflow/build-pdf.sh`
 - LaTeX template: `templates/template.tex`
