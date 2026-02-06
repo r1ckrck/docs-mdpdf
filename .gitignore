@@ -1,2 +1,10 @@
 # Generated output
 build/
+
+# System files
+.DS_Store
+
+# Ignore all docs except index.md and test.md
+docs/*
+!docs/index.md
+!docs/test.md
