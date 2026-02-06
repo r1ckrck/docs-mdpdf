@@ -1,32 +1,35 @@
-# Claude Code Instructions
+# PDF Build System
 
-## When Writing Markdown
-Read and follow:
-```
-templates/STYLEGUIDE_MD.md
-```
+**Purpose**: Convert Markdown → PDF using Pandoc + Tectonic (LaTeX engine)
 
-## When You Need Visual Context
-Reference:
-```
-templates/design_specification.md
-```
+## Commands
 
-## When Building PDFs
-Run:
+Build PDF:
 ```bash
-make pdf IN=docs/your-file.md
+make pdf IN=docs/your-file.md2>&1 | tail -n 1
 ```
 
-## File Locations
-| Purpose | Location |
-|---------|----------|
-| Markdown files you create | `docs/` |
-| Markdown rules | `templates/STYLEGUIDE_MD.md` |
-| Visual specification | `templates/design_specification.md` |
-| PDF output | `build/` |
+Direct pandoc (if needed):
 
+```bash
+/Users/arneshmandal/bin/micromamba run -n docs pandoc [args]
+```
 
+## Key Files (read as needed)
 
-instead of "pandoc" use "/Users/arneshmandal/bin/micromamba run -n docs pandoc"
+- **Markdown rules**: `templates/STYLEGUIDE_MD.md`
+- **Visual spec**: `templates/design_specification.md`
+- **LaTeX template**: `templates/template.tex` (has calc pkg + none counter fix)
+- **Lua filter**: `templates/divs.lua`
+- **Build script**: `workflow/build-pdf.sh`
 
+## Directory Structure
+
+- `docs/` - source markdown files
+- `build/` - generated PDFs
+- `templates/` - pandoc template, filters, style guides
+
+## Environment
+
+- Conda env: `docs` (via micromamba at `/Users/arneshmandal/bin/micromamba`)
+- Fonts: Inter (body), JetBrains Mono (code)
