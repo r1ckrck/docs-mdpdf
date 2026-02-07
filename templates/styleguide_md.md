@@ -1,7 +1,7 @@
 # Markdown Styleguide
 
 ## Frontmatter
-Required fields at document start:
+Required fields:
 ```yaml
 ---
 title: "Document Title"
@@ -12,12 +12,14 @@ date: "2026-01-30"
 ```
 
 ## Structure
-- One sentence per line
-- Paragraphs separated by blank lines
+- One sentence per line (source readability)
+- Consecutive sentences combine into paragraphs in PDF
+- Use bullets for separate points that should not combine into paragraphs
+- Blank line between paragraphs or sections
 - No indentation
 
 ## Headings
-- Max depth: H3 (no H4+)
+- Max depth: H4
 - Title Case: `# Getting Started With the API`
 - Auto-numbered (never manual)
 - No blank line after heading, blank line before next heading
@@ -55,6 +57,32 @@ def hello():
 ```
 ````
 
+## ASCII Art
+- Use `ascii` class for diagrams/art
+- max width of cover ascii art: 82
+- max height of cover ascii art: 
+
+````markdown
+```ascii
+   +---------+
+   |  Box    |
+   +---------+
+```
+````
+## Cover ASCII Art
+- Use `include-before` in YAML in frontmatter section after date
+- max width of cover ascii art: 60
+- max height of cover ascii art: 16
+
+```yaml
+---
+include-before: |
+  \begin{lstlisting}[style=coverasciiart]
+  Your ASCII art here
+  \end{lstlisting}
+---
+```
+
 ## Callouts
 Types: `note`, `tip`, `warning`, `important`
 Never inside lists/tables or nested.
@@ -86,6 +114,7 @@ Dimensions: full-width
 - **Block quotes**: `> text` (use sparingly)
 - **Horizontal rules**: `---` (use sparingly)
 - **Footnotes**: `text[^1]` + `[^1]: Note` at end (use sparingly)
+- **Icons/Emojis**: Use simple ASCII characters
 
 ## Prohibited
 No raw LaTeX (`\newpage`), HTML (`<div>`), or manual styling (fonts/colors/spacing).

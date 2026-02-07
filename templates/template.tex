@@ -36,7 +36,6 @@
 \usepackage{xcolor}
 
 % Primary colors
-\definecolor{primary}{HTML}{181826}
 \definecolor{secondary}{HTML}{ca9ee6}
 
 % Background colors
@@ -74,10 +73,7 @@
 \color{bodytext}
 
 % Typography
-\usepackage{setspace}
-\setstretch{1.2}
 \setlength{\parindent}{0pt}
-\setlength{\parskip}{3pt}
 
 % Headers and footers
 \usepackage{fancyhdr}
@@ -98,14 +94,15 @@
 % Headings
 \usepackage{titlesec}
 
-% H1: 16pt Semibold with full-width divider
+% H1: 16pt Semibold with full-width divider (not numbered)
 \titleformat{\section}
   {\fontsize{16pt}{19pt}\selectfont\bfseries\color{bodytext}}
-  {\thesection}
-  {0.5em}
+  {} % No number for H1
+  {0pt} % No space for number
   {}
-  [\vspace{-6pt}\rule{\textwidth}{0.5pt}]
-\titlespacing*{\section}{0pt}{14pt}{6pt}
+  [ \vspace{-12pt}
+  \rule{\textwidth}{0.5pt}]
+  \titlespacing*{\section}{0pt}{12pt}{0pt}
 
 % H2: 13pt Semibold
 \titleformat{\subsection}
@@ -113,7 +110,7 @@
   {\thesubsection}
   {0.5em}
   {}
-\titlespacing*{\subsection}{0pt}{10pt}{2pt}
+  \titlespacing*{\subsection}{0pt}{8pt}{0pt}
 
 % H3: 11pt Medium (using bold as fallback)
 \titleformat{\subsubsection}
@@ -121,7 +118,15 @@
   {\thesubsubsection}
   {0.5em}
   {}
-\titlespacing*{\subsubsection}{0pt}{8pt}{3pt}
+  \titlespacing*{\subsubsection}{0pt}{8pt}{0pt}
+
+% H4: 10pt Semibold
+\titleformat{\paragraph}
+  {\fontsize{10pt}{13pt}\selectfont\bfseries\color{bodytext}}
+  {\theparagraph}
+  {0.5em}
+  {}
+  \titlespacing*{\paragraph}{0pt}{8pt}{0pt}
 
 % Orphan/widow control for headings
 \widowpenalty=10000
@@ -130,31 +135,70 @@
 \@secpenalty=-500
 \makeatother
 
-% Section numbering depth
-\setcounter{secnumdepth}{3}
+% Section numbering configuration
+% H1 (\section) is not numbered - it's the document title
+% H2 (\subsection) becomes top-level: 1, 2, 3, ...
+% H3 (\subsubsection) becomes: 1.1, 1.2, ...
+% H4 (\paragraph) becomes: 1.1.1, 1.1.2, ...
+
+\setcounter{secnumdepth}{4} % Enable numbering for all levels
+
+% Redefine section number to be empty (H1 not numbered)
+\renewcommand{\thesection}{}
+
+% Redefine subsection to number without section prefix (H2 as top-level)
+\renewcommand{\thesubsection}{\arabic{subsection}}
+
+% Redefine subsubsection with subsection prefix (H3)
+\renewcommand{\thesubsubsection}{\thesubsection.\arabic{subsubsection}}
+
+% Redefine paragraph with subsubsection prefix (H4)
+\renewcommand{\theparagraph}{\thesubsubsection.\arabic{paragraph}}
 
 % Table of Contents
 \usepackage{tocloft}
 \renewcommand{\cfttoctitlefont}{\fontsize{13pt}{16pt}\selectfont\bfseries\color{bodytext}}
+
+% Hide sections (H1) from TOC - they're document titles
 \renewcommand{\cftsecfont}{\fontsize{10pt}{12pt}\selectfont\color{bodytext}}
 \renewcommand{\cftsecpagefont}{\fontsize{10pt}{12pt}\selectfont\color{secondarytext}}
-\renewcommand{\cftsubsecfont}{\fontsize{10pt}{12pt}\selectfont\color{bodytext}}
-\renewcommand{\cftsubsecpagefont}{\fontsize{10pt}{12pt}\selectfont\color{secondarytext}}
+\makeatletter
+\renewcommand{\l@section}[2]{} % Don't display sections in TOC
+\makeatother
+
+% H2 (subsections) appear as top-level in TOC
+\renewcommand{\cftsubsecfont}{\fontsize{10pt}{12pt}\selectfont\color{accentmuted}}
+\renewcommand{\cftsubsecpagefont}{\fontsize{10pt}{12pt}\selectfont\color{bodytext}}
 \renewcommand{\cftsecleader}{\hfill}
-\renewcommand{\cftsubsecleader}{\hfill}
+\renewcommand{\cftsubsecleader}{\hfill} % No dots for H2
+
+% H3 (subsubsections) in TOC
+\renewcommand{\cftsubsubsecfont}{\fontsize{10pt}{12pt}\selectfont\color{accentmuted}}
+\renewcommand{\cftsubsubsecpagefont}{\fontsize{10pt}{12pt}\selectfont\color{bodytext}}
+\renewcommand{\cftsubsubsecleader}{\cftdotfill{\cftdotsep}} % Dotted lines for H3
+
+% H4 (paragraphs) in TOC
+\renewcommand{\cftparafont}{\fontsize{10pt}{12pt}\selectfont\color{accentmuted}}
+\renewcommand{\cftparapagefont}{\fontsize{10pt}{12pt}\selectfont\color{bodytext}}
+\renewcommand{\cftparaleader}{\cftdotfill{\cftdotsep}} % Dotted lines for H4
+
 \setlength{\cftsecnumwidth}{2em}
-\setlength{\cftsubsecnumwidth}{2.5em}
-\setlength{\cftsubsecindent}{2em}
-\setlength{\cftbeforesecskip}{6pt}
-\setcounter{tocdepth}{2}
+\setlength{\cftsubsecnumwidth}{2em} % Reduced since no section prefix
+\setlength{\cftsubsecindent}{0pt} % No indent since they're top-level now
+\setlength{\cftsubsubsecindent}{2em} % Indent H3
+\setlength{\cftsubsubsecnumwidth}{3em}
+\setlength{\cftparaindent}{4em} % Indent H4
+\setlength{\cftparanumwidth}{3.5em}
+\setlength{\cftbeforesecskip}{0pt}
+\setcounter{tocdepth}{3} % Include up to H4 in TOC
 
 % Tables
 \usepackage{booktabs}
 \usepackage{longtable}
 \usepackage{array}
-\usepackage{multirow}
 \usepackage{colortbl}
 \usepackage{calc}
+\usepackage{varwidth}
 
 % Table styling
 \setlength{\tabcolsep}{8pt}
@@ -169,12 +213,11 @@
 \setlength\LTright\fill
 
 % Reduce spacing before and after tables
-\setlength\LTpre{6pt}
-\setlength\LTpost{12pt}
+\setlength\LTpre{4pt}
+\setlength\LTpost{-10pt}
 
 % Code blocks
 \usepackage{listings}
-\usepackage{realboxes}
 
 \lstdefinestyle{codeblock}{
   backgroundcolor=\color{codebg},
@@ -182,7 +225,7 @@
   keywordstyle=\bfseries\color{bodytext},
   stringstyle=\color{synstring},
   commentstyle=\itshape\color{syncomment},
-  numberstyle=\color{synnumber},
+  numberstyle=\fontsize{6pt}{8pt}\selectfont\ttfamily\color{synnumber},
   breakatwhitespace=false,
   breaklines=true,
   keepspaces=true,
@@ -190,27 +233,69 @@
   showstringspaces=false,
   showtabs=false,
   tabsize=2,
+  mathescape=true,
   frame=none,
   xleftmargin=8pt,
   xrightmargin=8pt,
   framexleftmargin=8pt,
   framexrightmargin=8pt,
   framesep=8pt,
+  belowskip=12pt,
+  literate={✓}{{\ensuremath{\checkmark}}}1 {✗}{{\ensuremath{\times}}}1
+}
+
+% Cover ASCII art style - larger font, no background, no line breaking
+\lstdefinestyle{coverasciiart}{
+  basicstyle=\fontsize{14pt}{16pt}\selectfont\ttfamily\color{bodytext},
+  backgroundcolor=\color{pagebg},
+  breaklines=false,
+  breakatwhitespace=false,
+  keepspaces=true,
+  showspaces=false,
+  showstringspaces=false,
+  showtabs=false,
+  tabsize=2,
+  frame=none,
+  xleftmargin=0pt,
+  xrightmargin=0pt,
+  framexleftmargin=0pt,
+  framexrightmargin=0pt,
+  framesep=0pt,
   aboveskip=0pt,
-  belowskip=6pt
+  belowskip=12pt
+}
+
+
+% ASCII art style - smaller font, no background, no line breaking
+\lstdefinestyle{asciiart}{
+  basicstyle=\fontsize{12pt}{14pt}\selectfont\ttfamily\color{bodytext},
+  backgroundcolor=\color{pagebg},
+  breaklines=false,
+  breakatwhitespace=false,
+  keepspaces=true,
+  showspaces=false,
+  showstringspaces=false,
+  showtabs=false,
+  tabsize=2,
+  frame=none,
+  xleftmargin=-18pt,
+  xrightmargin=0pt,
+  framexleftmargin=0pt,
+  framexrightmargin=0pt,
+  framesep=0pt,
+  aboveskip=0pt,
+  belowskip=0pt
 }
 
 \lstset{style=codeblock}
 
-% Inline code
-\newcommand{\code}[1]{%
-  \colorbox{codebg}{\fontsize{9pt}{11pt}\selectfont\ttfamily\color{bodytext}#1}%
-}
+% Passthrough command for listings (used by Pandoc with --listings flag)
+\newcommand{\passthrough}[1]{#1}
 
-% Override Pandoc's inline code (\texttt)
-\let\oldtexttt\texttt
-\renewcommand{\texttt}[1]{%
-  \colorbox{codebg}{\fontsize{9pt}{11pt}\selectfont\oldtexttt{\color{bodytext}#1}}%
+% Custom inline code command with background
+\newcommand{\inlinecode}[1]{%
+  \setlength{\fboxsep}{2pt}%
+  \colorbox{codebg}{\fontsize{9pt}{11pt}\selectfont\ttfamily\color{bodytext}#1}%
 }
 
 % Callouts/admonitions (using tcolorbox)
@@ -228,10 +313,10 @@
     coltext=bodytext,
     left=10pt,
     right=10pt,
-    top=10pt,
-    bottom=10pt,
-    before skip=10pt,
-    after skip=10pt,
+    top=4pt,
+    bottom=4pt,
+    before skip=4pt,
+    after skip=4pt,
     fontupper=\fontsize{10pt}{14pt}\selectfont
   }
 }
@@ -272,8 +357,8 @@
   right=12pt,
   top=12pt,
   bottom=12pt,
-  before skip=12pt,
-  after skip=12pt,
+  before skip=8pt,
+  after skip=8pt,
   fontupper=\fontsize{9pt}{12pt}\selectfont,
   halign=center,
   valign=center,
@@ -294,8 +379,7 @@
   textfont={it},
   format=plain,
   justification=justified,
-  singlelinecheck=false,
-  skip=6pt
+  singlelinecheck=false
 }
 \captionsetup[figure]{
   name=Figure,
@@ -310,32 +394,24 @@
   font={footnotesize,color=secondarytext},
   labelfont={footnotesize,color=secondarytext},
   textfont={footnotesize,it,color=secondarytext},
-  position=below,
-  skip=-8pt
-}
-
-% Ensure longtables also use bottom captions
-\captionsetup[longtable]{
-  position=below,
-  skip=-8pt
 }
 
 % Links
 \usepackage{hyperref}
 \hypersetup{
   colorlinks=true,
-  linkcolor=secondary,
-  urlcolor=secondary,
-  citecolor=secondary,
+  linkcolor=accentmuted,
+  urlcolor=accentmuted,
+  citecolor=accentmuted,
   pdfborder={0 0 0}
 }
 
 % Lists
 \usepackage{enumitem}
-\usepackage{amssymb}  % For checkbox symbols
+\usepackage{amssymb}
 
 \setlist{
-  topsep=3pt,
+  topsep=0pt,
   itemsep=3pt,
   parsep=0pt,
   leftmargin=14pt
@@ -346,6 +422,10 @@
 
 \setlist[enumerate,1]{label=\arabic*.}
 \setlist[enumerate,2]{label=\alph*., leftmargin=16pt}
+
+% Pandoc tightlist command (for compact lists)
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
 
 % Block quotes (using tcolorbox like callouts)
 \newtcolorbox{quotebox}{
@@ -358,10 +438,8 @@
   coltext=secondarytext,
   left=10pt,
   right=10pt,
-  top=10pt,
-  bottom=10pt,
-  before skip=10pt,
-  after skip=10pt,
+  top=4pt,
+  bottom=4pt,
   fontupper=\fontsize{10pt}{14pt}\selectfont\itshape
 }
 
@@ -381,43 +459,14 @@
 }
 \renewcommand{\thefootnote}{\textcolor{secondary}{\arabic{footnote}}}
 \renewcommand{\footnotesize}{\fontsize{8pt}{10pt}\selectfont}
-\setlength{\footnotesep}{8pt}
+
+% Counter for tables without captions (Pandoc generates \LTcaptype{none})
+\newcounter{none}
 
 % Horizontal rule
 \renewcommand{\hrulefill}{%
   \leavevmode\leaders\hbox{\rule[0.5ex]{\linewidth}{0.5pt}}\hfill\kern0pt%
 }
-
-% Pandoc-specific adjustments
-\providecommand{\tightlist}{%
-  \setlength{\itemsep}{4pt}\setlength{\parskip}{0pt}%
-}
-
-% Fix for Pandoc longtable without caption issue
-\makeatletter
-\newcounter{none}
-\DeclareCaptionType{none}
-\makeatother
-
-% Pandoc code highlighting support
-$if(highlighting-macros)$
-$highlighting-macros$
-
-% Redefine Shaded environment to add background color
-\usepackage{framed}
-\renewenvironment{Shaded}{%
-  \vspace{6pt}% Reduce space before code block
-  \noindent% Left-align without indentation
-  \begin{minipage}{0.7\textwidth}% Max 70% width
-  \def\FrameCommand{\fboxsep=12pt\colorbox{codebg}}% Increase left/right padding
-  \MakeFramed{\advance\hsize-\width\FrameRestore}%
-  \fontsize{9pt}{12pt}\selectfont\ttfamily%
-}{%
-  \endMakeFramed%
-  \end{minipage}%
-  \vspace{6pt}% Reduce space after code block
-}
-$endif$
 
 % CSL references
 $if(csl-refs)$
@@ -435,17 +484,30 @@ $endif$
 % First page: Cover + TOC
 \thispagestyle{firstpage}
 
+% Push entire block to bottom
+\null\vfill
+
+$for(include-before)$
+\begin{center}
+\begin{varwidth}{\textwidth}
+$include-before$
+\end{varwidth}
+\end{center}
+$endfor$
+
+\vfill
+
 % Title block
 {\fontsize{16pt}{19pt}\selectfont\bfseries $title$\par}
-\vspace{4pt}
 {\fontsize{9pt}{11pt}\selectfont\color{secondarytext}%
 $if(author)$$author$ · $endif$v$version$$if(date)$ · $date$$endif$\par}
-
-\vspace{18pt}
 
 % Table of contents
 \tableofcontents
 \thispagestyle{firstpage}
+
+% Triple bottom margin for first page
+\vspace{6em}
 
 \newpage
 

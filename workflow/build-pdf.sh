@@ -61,6 +61,7 @@ $MICROMAMBA run -n "$ENV_NAME" \
     --toc \
     --toc-depth=2 \
     --number-sections \
+    --listings \
     -V colorlinks=true
 
 echo "PDF generated → $OUTPUT"
